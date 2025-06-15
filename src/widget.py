@@ -1,4 +1,4 @@
-from src.masks.main import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(card: str) -> str:
@@ -14,25 +14,6 @@ def mask_account_card(card: str) -> str:
         return f"{name_title} {get_mask_card_number(account_card)}"
 
 
-cards = [
-    "Maestro 1596837868705199",
-    "Счет 64686473678894779589",
-    "MasterCard 7158300734726758",
-    "Счет 35383033474447895560",
-    "Visa Classic 6831982476737658",
-    "Visa Platinum 8990922113665229",
-    "Visa Gold 5999414228426353",
-    "Счет 73654108430135874305",
-]
-
-for card in cards:
-    print(mask_account_card(card))
-
-
 def get_date(data: str) -> str:
     """Функция возвращает дату в формате ДД.ММ.ГГГГ"""
     return f"{data[8:10]}.{data[5:7]}.{data[:4]}"
-
-
-data = "2025-06-14T02:26:18.671407"
-print(get_date(data))
