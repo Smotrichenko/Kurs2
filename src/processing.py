@@ -10,8 +10,6 @@ def filter_by_state(data: List[Dict[str, Any]], state: str = "EXECUTED") -> List
     for key in data:
         if key.get("state") == state:
             filtered_list_of_dict.append(key)
-        else:
-            continue
     return filtered_list_of_dict
 
 
