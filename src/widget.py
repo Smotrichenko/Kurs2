@@ -14,6 +14,6 @@ def mask_account_card(card: str) -> str:
         return f"{name_title} {get_mask_card_number(account_card)}"
 
 
-def get_date(data: str) -> str:
+def get_date(date: str) -> str:
     """Функция возвращает дату в формате ДД.ММ.ГГГГ"""
-    return f"{data[8:10]}.{data[5:7]}.{data[:4]}"
+    return f"{date[8:10]}.{date[5:7]}.{date[:4]}"
