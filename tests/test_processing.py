@@ -32,36 +32,40 @@ from src.processing import filter_by_state, sort_by_date
         ),
     ],
 )
-def test_filter_by_state(data: List[Dict[str, Any]], state: str, expected: List[Dict[str, Any]]):
+def test_filter_by_state(data: List[Dict[str, Any]], state: str, expected: List[Dict[str, Any]]) -> None:
     assert filter_by_state(data, state) == expected
 
-    def test_filter_executed(filter_list):
-        result = filter_by_state(filter_list, state="EXECUTED")
-        expected = [
-            {"id": 1, "state": "EXECUTED"},
-            {"id": 2, "state": "EXECUTED"},
-        ]
-        assert result == expected
 
-    def test_filter_cancelled(filt_list):
-        result = filter_by_state(filt_list, state="CANCELLED")
-        expected = [
-            {"id": 3, "state": "CANCELLED"},
-        ]
-        assert result == expected
-
-    def test_filter_no_matches(filt_list):
-        result = filter_by_state(filt_list, state="None")
-        expected = []
-        assert result == expected
-
-    def test_filter_empty_data():
-        result = filter_by_state([], state="EXECUTED")
-        expected = []
-        assert result == expected
+def test_filter_executed(filt_list: List[Dict[str, Any]]) -> None:
+    result = filter_by_state(filt_list, state="EXECUTED")
+    expected = [
+        {"id": 1, "state": "EXECUTED"},
+        {"id": 2, "state": "EXECUTED"},
+    ]
+    assert result == expected
 
 
-def test_sort_descending(sort_date):
+def test_filter_cancelled(filt_list: List[Dict[str, Any]]) -> None:
+    result = filter_by_state(filt_list, state="CANCELLED")
+    expected = [
+        {"id": 3, "state": "CANCELLED"},
+    ]
+    assert result == expected
+
+
+def test_filter_no_matches(filt_list: List[Dict[str, Any]]) -> None:
+    result = filter_by_state(filt_list, state="None")
+    expected: List[Dict[str, Any]] = []
+    assert result == expected
+
+
+def test_filter_empty_data() -> None:
+    result = filter_by_state([], state="EXECUTED")
+    expected: List[Dict[str, Any]] = []
+    assert result == expected
+
+
+def test_sort_descending(sort_date: List[Dict[str, Any]]) -> None:
     sorted_data = sort_by_date(sort_date, reverse=True)
     dates = [item.get("date", "") for item in sorted_data]
     assert dates == [
@@ -73,7 +77,7 @@ def test_sort_descending(sort_date):
     ]
 
 
-def test_sort_ascending(sort_date):
+def test_sort_ascending(sort_date: List[Dict[str, Any]]) -> None:
     sorted_data = sort_by_date(sort_date, reverse=False)
     dates = [item.get("date", "") for item in sorted_data]
     assert dates == [
@@ -85,6 +89,6 @@ def test_sort_ascending(sort_date):
     ]
 
 
-def test_empty_list():
+def test_empty_list() -> None:
     result = sort_by_date([])
     assert result == []

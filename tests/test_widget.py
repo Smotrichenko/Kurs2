@@ -1,3 +1,5 @@
+from typing import Optional
+
 import pytest
 
 from src.widget import get_date, mask_account_card
@@ -15,7 +17,7 @@ from src.widget import get_date, mask_account_card
         ("Visa Platinum qwerty", "Некорректный номер карты"),
     ],
 )
-def test_mask_account_card(value, expected):
+def test_mask_account_card(value: str, expected: str) -> None:
     assert mask_account_card(value) == expected
 
 
@@ -29,7 +31,7 @@ def test_mask_account_card(value, expected):
         (None, "Некорректная дата"),
         ("не дата", "Некорректная дата"),
         ("2024-02-30T00:00:00", "Некорректная дата"),
-    ]
+    ],
 )
-def test_get_date(input_date, expected_output):
+def test_get_date(input_date: Optional[str], expected_output: str) -> None:
     assert get_date(input_date) == expected_output

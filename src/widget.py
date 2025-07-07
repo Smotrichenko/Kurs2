@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from src.masks import get_mask_account, get_mask_card_number
 
@@ -32,7 +33,7 @@ def mask_account_card(card: str) -> str:
         return f"Ошибка при обработке: {e}"
 
 
-def get_date(date: str) -> str:
+def get_date(date: Optional[str]) -> str:
     """Функция возвращает дату в формате ДД.ММ.ГГГГ"""
     if not isinstance(date, str) or not date.strip():
         return "Некорректная дата"

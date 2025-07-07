@@ -1,6 +1,6 @@
-import pytest
-
 from typing import Any, Dict, List
+
+import pytest
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def filt_list() -> List[Dict[str, Any]]:
 
 
 @pytest.fixture
-def sort_date():
+def sort_date() -> List[Dict[str, Any]]:
     return [
         {"id": 1, "date": "2024-05-01"},
         {"id": 2, "date": "2024-01-15"},
