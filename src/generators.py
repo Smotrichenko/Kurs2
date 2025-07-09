@@ -1,17 +1,5 @@
 from typing import Any, Dict, Iterator, List
 
-
-def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -> Iterator[Dict[str, Any]]:
-    """
-    Генератор, который поочередно возвращает транзакции,
-    в которых код валюты совпадает с currency.
-    """
-    for transaction in transactions:
-        currency = transaction.get("operationAmount", {}).get("currency", {}).get("code")
-        if currency == currency_code:
-            yield transaction
-
-
 transactions = [
     {
         "id": 939719570,
@@ -36,11 +24,23 @@ transactions = [
         "state": "EXECUTED",
         "date": "2021-07-15T10:00:00.000000",
         "operationAmount": {"amount": "5000.00", "currency": {"name": "EUR", "code": "EUR"}},
-        "description": "Перевод со счета на счет",
+        "description": "Перевод с карты на карту",
         "from": "Счет 12345678901234567890",
         "to": "Счет 09876543210987654321",
     },
 ]
+
+
+def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -> Iterator[Dict[str, Any]]:
+    """
+    Генератор, который поочередно возвращает транзакции,
+    в которых код валюты совпадает с currency.
+    """
+    for transaction in transactions:
+        currency = transaction.get("operationAmount", {}).get("currency", {}).get("code")
+        if currency == currency_code:
+            yield transaction
+
 
 usd_transactions_gen = filter_by_currency(transactions, "USD")
 for i in range(3):
@@ -49,4 +49,21 @@ for i in range(3):
         print(result)
     except StopIteration:
         print("Все транзакции с USD выведены")
+        break
+
+
+def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[Dict[str, Any]]:
+    for transaction in transactions:
+        description = transaction.get("description", "Нет описания")
+        yield description
+
+
+descriptions_gen = transaction_descriptions(transactions)
+
+for i in range(5):
+    try:
+        result = next(descriptions_gen)
+        print(result)
+    except StopIteration:
+        print("Все переводы выведены")
         break
