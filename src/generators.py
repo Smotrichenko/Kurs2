@@ -1,6 +1,5 @@
 from typing import Any, Dict, Iterator, List
 
-
 transactions = [
     {
         "id": 939719570,
@@ -62,7 +61,7 @@ def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -
 
 
 usd_transactions_gen = filter_by_currency(transactions, "USD")
-for i in range(3):
+for i in range(5):
     try:
         result = next(usd_transactions_gen)
         print(result)
@@ -84,7 +83,7 @@ def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[Dic
 
 descriptions_gen = transaction_descriptions(transactions)
 
-for i in range(4):
+for i in range(6):
     try:
         result = next(descriptions_gen)
         print(result)
