@@ -1,5 +1,6 @@
 from typing import Any, Dict, Iterator, List
 
+
 transactions = [
     {
         "id": 939719570,
@@ -20,13 +21,31 @@ transactions = [
         "to": "Счет 75651667383060284188",
     },
     {
-        "id": 123456789,
+        "id": 873106923,
         "state": "EXECUTED",
-        "date": "2021-07-15T10:00:00.000000",
-        "operationAmount": {"amount": "5000.00", "currency": {"name": "EUR", "code": "EUR"}},
+        "date": "2019-03-23T01:09:46.296404",
+        "operationAmount": {"amount": "43318.34", "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод со счета на счет",
+        "from": "Счет 44812258784861134719",
+        "to": "Счет 74489636417521191160",
+    },
+    {
+        "id": 895315941,
+        "state": "EXECUTED",
+        "date": "2018-08-19T04:27:37.904916",
+        "operationAmount": {"amount": "56883.54", "currency": {"name": "USD", "code": "USD"}},
         "description": "Перевод с карты на карту",
-        "from": "Счет 12345678901234567890",
-        "to": "Счет 09876543210987654321",
+        "from": "Visa Classic 6831982476737658",
+        "to": "Visa Platinum 8990922113665229",
+    },
+    {
+        "id": 594226727,
+        "state": "CANCELED",
+        "date": "2018-09-12T21:27:25.241689",
+        "operationAmount": {"amount": "67314.70", "currency": {"name": "руб.", "code": "RUB"}},
+        "description": "Перевод организации",
+        "from": "Visa Platinum 1246377376343588",
+        "to": "Счет 14211924144426031657",
     },
 ]
 
@@ -34,7 +53,7 @@ transactions = [
 def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -> Iterator[Dict[str, Any]]:
     """
     Генератор, который поочередно возвращает транзакции,
-    в которых код валюты совпадает с currency.
+    в которых код валюты совпадает с currency_code.
     """
     for transaction in transactions:
         currency = transaction.get("operationAmount", {}).get("currency", {}).get("code")
@@ -53,6 +72,11 @@ for i in range(3):
 
 
 def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[Dict[str, Any]]:
+    """
+    Генератор,  который принимает список словарей с транзакциями
+    и возвращает описание каждой операции по очереди.
+    """
+
     for transaction in transactions:
         description = transaction.get("description", "Нет описания")
         yield description
@@ -60,10 +84,25 @@ def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[Dic
 
 descriptions_gen = transaction_descriptions(transactions)
 
-for i in range(5):
+for i in range(4):
     try:
         result = next(descriptions_gen)
         print(result)
     except StopIteration:
         print("Все переводы выведены")
         break
+
+
+def card_number_generator(start: int, end: int) -> Iterator:
+    """
+    Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX
+    в диапазоне от start до end.
+    """
+    for num in range(start, end):
+        num_str = f"{num:016d}"
+        formatted = " ".join([num_str[i : i + 4] for i in range(0, 16, 4)])
+        yield formatted
+
+
+for card_number in card_number_generator(1, 6):
+    print(card_number)
