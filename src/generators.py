@@ -1,0 +1,59 @@
+from typing import Any, Dict, Iterator, List
+
+
+def filter_by_currency(transactions: List[Dict[str, Any]], currency_code: str) -> Iterator[Dict[str, Any]]:
+    """
+    Генератор, который поочередно возвращает транзакции,
+    в которых код валюты совпадает с currency_code.
+    """
+    for transaction in transactions:
+        currency = transaction ["operationAmount"]["currency"]["code"]
+        if currency == currency_code:
+            yield transaction
+
+
+usd_transactions_gen = filter_by_currency(transactions, "USD")
+for i in range(5):
+    try:
+        result = next(usd_transactions_gen)
+        print(result)
+    except StopIteration:
+        print("Все транзакции с USD выведены")
+        break
+
+
+def transaction_descriptions(transactions: List[Dict[str, Any]]) -> Iterator[Dict[str, Any]]:
+    """
+    Генератор,  который принимает список словарей с транзакциями
+    и возвращает описание каждой операции по очереди.
+    """
+
+    for transaction in transactions:
+        description = transaction ["description"]
+        yield description
+
+
+descriptions_gen = transaction_descriptions(transactions)
+
+for i in range(6):
+    try:
+        result = next(descriptions_gen)
+        print(result)
+    except StopIteration:
+        print("Все переводы выведены")
+        break
+
+
+def card_number_generator(start: int, end: int) -> Iterator:
+    """
+    Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX
+    в диапазоне от start до end.
+    """
+    for num in range(start, end):
+        num_str = f"{num:016d}"
+        formatted = " ".join([num_str[i : i + 4] for i in range(0, 16, 4)])
+        yield formatted
+
+
+for card_number in card_number_generator(1, 6):
+    print(card_number)
