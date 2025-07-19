@@ -56,3 +56,11 @@ def transactions():
             "to": "Счет 74489636417521191160",
         },
     ]
+
+
+@pytest.fixture
+def temp_log_file(tmp_path):
+    path = tmp_path / "test_log.txt"
+    yield str(path)
+    if path.exists():
+        path.unlink()
