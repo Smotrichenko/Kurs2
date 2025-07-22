@@ -1,5 +1,5 @@
 import json
-from unittest.mock import mock_open, patch
+from unittest.mock import Mock, mock_open, patch
 
 from src.external_api import convert_to_rub
 from src.utils import get_transaction_amount, load_transactions
@@ -50,17 +50,19 @@ def test_convert_to_rub_rub_currency():
     assert result == 150.5
 
 
-@patch("src.utils.requests.get")
+@patch("src.external_api.requests.get")
 def test_convert_to_rub_usd_currency(mock_get):
-    mock_response = {"result": 7500.0}
-    mock_get.return_value.json.return_value = mock_response
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {"result": 7500.0}
+    mock_get.return_value = mock_response
 
     data = {"amount": "100", "currency": {"code": "USD"}}
     result = convert_to_rub(data)
     assert result == 7500.0
 
 
-@patch("src.utils.requests.get", side_effect=Exception("API Error"))
+@patch("src.external_api.requests.get", side_effect=Exception("API Error"))
 def test_convert_to_rub_api_error(_):
     data = {"amount": "100", "currency": {"code": "USD"}}
     result = convert_to_rub(data)

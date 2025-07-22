@@ -30,6 +30,6 @@ def convert_to_rub(operation_amount: Dict) -> float:
 
         data = response.json()
         return float(data.get("result", 0.0))
-    except (requests.RequestException, ValueError, TypeError) as e:
+    except (requests.RequestException, Exception) as e:
         print(f"Ошибка при конвертации валюты: {e}")
         return 0.0
