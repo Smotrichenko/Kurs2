@@ -135,9 +135,9 @@ def get_transaction_amount(transactions: Dict[str, Any]) -> float:
         return 0.0
 
 
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\operations.json")
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions.csv")
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions_excel.xlsx")
+# transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\operations.json")
+# transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions.csv")
+# transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions_excel.xlsx")
 
 for i in transactions:
     if not i or "operationAmount" not in i:
