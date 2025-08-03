@@ -23,6 +23,7 @@ def process_bank_operations(data: List[Dict], categories: List[str]) -> Dict[str
     а возвращать словарь, в котором ключи — это названия категорий, а значения — это количество операций в каждой категории.
     """
     counted: Dict[str, int] = Counter()
+    counted = Counter({cat: 0 for cat in categories})
     for tx in data:
         description = tx.get("description", "").lower()
         for category in categories:

@@ -64,3 +64,12 @@ def temp_log_file(tmp_path):
     yield str(path)
     if path.exists():
         path.unlink()
+
+
+@pytest.fixture
+def sample_data():
+    return [
+        {"description": "Перевод организации", "amount": 1000},
+        {"description": "Пополнение счета", "amount": 500},
+        {"description": "Оплата услуг", "amount": 750},
+    ]
