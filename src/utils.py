@@ -55,12 +55,7 @@ def load_from_json(filename: str) -> List[Dict[str, Any]]:
             if not isinstance(data, List):
                 print("Ожидается список транзакций в JSON-файле")
                 return []
-            filtered_transactions = [
-                transaction
-                for transaction in data
-                if transaction.get("operationAmount", {}).get("currency", {}).get("code") == "RUB"
-            ]
-            return filtered_transactions
+            return data
 
     except FileNotFoundError as ex:
         logger.error(f"Произошла ошибка: {ex}")
@@ -78,15 +73,19 @@ def load_from_csv(filename: str) -> List[Dict[str, Any]]:
     with open(filename, "r", encoding="utf-8") as file:
         reader = csv.DictReader(file, delimiter=";")
         for row in reader:
-            if row.get("currency_code") != "RUB":
-                continue
             transaction = {
                 "id": row.get("id"),
+                "state": row.get("state", "").upper(),
+                "date": row.get("date"),
                 "operationAmount": {
                     "amount": row.get("amount"),
                     "currency": {"code": row.get("currency_code", "RUB")},
                 },
+                "description": row.get("description", ""),
+                "from": row.get("from"),
+                "to": row.get("to"),
             }
+
             transactions.append(transaction)
     return transactions
 
@@ -100,10 +99,13 @@ def load_from_xlsx(filename: str) -> List[Dict[str, Any]]:
 
     for row in sheet.iter_rows(min_row=2, values_only=True):
         row_data = {headers[i]: row[i] for i in range(len(headers))}
-        if row_data.get("currency_code") != "RUB":
-            continue
         transaction = {
             "id": row_data.get("id"),
+            "state": row_data.get("state"),
+            "date": row_data.get("date"),
+            "from": row_data.get("from"),
+            "to": row_data.get("to"),
+            "description": row_data.get("description"),
             "operationAmount": {
                 "amount": row_data.get("amount"),
                 "currency": {"code": row_data.get("currency_code", "RUB")},
@@ -133,14 +135,3 @@ def get_transaction_amount(transactions: Dict[str, Any]) -> float:
     except Exception as ex:
         logger.error(f"Произошла ошибка: {ex}")
         return 0.0
-
-
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\operations.json")
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions.csv")
-transactions = load_transactions(r"C:\Users\smotr\Desktop\Kurs2\data\transactions_excel.xlsx")
-
-for i in transactions:
-    if not i or "operationAmount" not in i:
-        continue
-    rub_amount = get_transaction_amount(i)
-    print(f"Транзакция {i['id']}: {rub_amount:.2f} RUB")

@@ -38,6 +38,8 @@ def get_date(date: Optional[str]) -> str:
     if not isinstance(date, str) or not date.strip():
         return "Некорректная дата"
     try:
+        if date.endswith("Z"):
+            date = date[:-1]
         dt = datetime.fromisoformat(date)
         return dt.strftime("%d.%m.%Y")
     except ValueError:
