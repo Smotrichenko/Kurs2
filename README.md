@@ -1,4 +1,4 @@
-# **HomeWork_Kurs_2**
+# **Transaction Widget**
 
 ## **Описание**
 Виджет последних успешных банковских операций клиента.  
@@ -8,7 +8,7 @@
 1. Клонируй репозиторий:
 
 ```
-git clone git@github.com:Smotrichenko/Kurs2.git
+git clone git@github.com:Smotrichenko/Transaction-Widget.git
 ```
 2. Установи зависимости через Poetry
 ```
